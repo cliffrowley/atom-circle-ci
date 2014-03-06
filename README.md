@@ -19,13 +19,13 @@ There's nothing to 'do' per se, just a few things you should be aware of.
 
 The icons are as follows:
 
-| Icon                                             | Status   |
-| ------------------------------------------------ | -------- |
-| <span class="mega-octicon octicon-sync">sync</span>  | Running  |
-| <span class="mega-octicon octicon-check"></span> | Success  |
-| <span class="mega-octicon octicon-alert"></span> | Failure  |
-| <span class="mega-octicon octicon-x"></span>     | Canceled |
-| <span class="mega-octicon octicon-slash"></span> | Error    |
+| Icon                                                                                   | Status   |
+| -------------------------------------------------------------------------------------- | -------- |
+| ![sync](https://dl.dropboxusercontent.com/u/714833/Atom/packages/circle-ci/sync.png)   | Running  |
+| ![sync](https://dl.dropboxusercontent.com/u/714833/Atom/packages/circle-ci/check.png)  | Success  |
+| ![alert](https://dl.dropboxusercontent.com/u/714833/Atom/packages/circle-ci/alert.png) | Failure  |
+| ![sync](https://dl.dropboxusercontent.com/u/714833/Atom/packages/circle-ci/x.png)      | Canceled |
+| ![sync](https://dl.dropboxusercontent.com/u/714833/Atom/packages/circle-ci/slash.png)  | Error    |
 
 Please also see the limitations below.
 
