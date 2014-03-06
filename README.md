@@ -21,7 +21,7 @@ The icons are as follows:
 
 | Icon                                             | Status   |
 | ------------------------------------------------ | -------- |
-| <span class="mega-octicon octicon-sync"></span>  | Running  |
+| <span class="mega-octicon octicon-sync">sync</span>  | Running  |
 | <span class="mega-octicon octicon-check"></span> | Success  |
 | <span class="mega-octicon octicon-alert"></span> | Failure  |
 | <span class="mega-octicon octicon-x"></span>     | Canceled |
@@ -51,7 +51,7 @@ Currently you may only enter a single Circle CI token, which means you can only 
 
 ### The icons aren't terribly meaningful
 
-I'm fully aware they're not very intuitive, but I just picked the closest I could find in the [Github icon set](https://github.com/styleguide/css/7.0) until I get a chance to replace them.
+I'm fully aware they're not very intuitive, but I just picked the closest I could find in the [Github icon set](https://github.com/styleguide/css/7.0) until I get a chance to replace them.  I did this mostly because the icons are already available to Atom.
 
 ### Misc other things
 
