@@ -1,0 +1,15 @@
+{
+  "name": "circle-ci",
+  "main": "./lib/circle-ci",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Adds build status from Circle CI for the current branch of the current project to the Atom UI",
+  "repository": "https://github.com/cliffrowley/atom-circle-ci",
+  "license": "MIT",
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "dependencies": {
+    "node-rest-client": "cliffrowley/node-rest-client"
+  }
+}
