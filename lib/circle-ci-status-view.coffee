@@ -12,6 +12,7 @@ module.exports =
     initialize: ->
       @repo     = atom.project.getRepo()
       @apiToken = atom.config.get 'circle-ci.apiToken'
+      @pollFrequency = atom.config.get 'circle-ci.pollFrequency'
       @login() if @repo and @apiToken?
 
     login: ->
@@ -29,7 +30,7 @@ module.exports =
         @parseBuildArray buildArray if buildArray?
         window.setTimeout =>
           @fetchBuildArray()
-        , 10000
+        , @pollFrequency
 
     parseBuildArray: (buildArray) ->
       build = buildArray[0] unless buildArray.length is 0
