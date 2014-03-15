@@ -10,8 +10,8 @@ module.exports =
         @span outlet: 'statusLabel'
 
     initialize: ->
-      @repo     = atom.project.getRepo()
-      @apiToken = atom.config.get 'circle-ci.apiToken'
+      @repo          = atom.project.getRepo()
+      @apiToken      = atom.config.get 'circle-ci.apiToken'
       @pollFrequency = atom.config.get 'circle-ci.pollFrequency'
       @login() if @repo and @apiToken?
 
@@ -30,7 +30,7 @@ module.exports =
         @parseBuildArray buildArray if buildArray?
         window.setTimeout =>
           @fetchBuildArray()
-        , @pollFrequency
+        , @pollFrequency * 1000
 
     parseBuildArray: (buildArray) ->
       build = buildArray[0] unless buildArray.length is 0

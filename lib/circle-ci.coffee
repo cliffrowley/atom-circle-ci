@@ -4,7 +4,7 @@ module.exports =
   circleCiStatusView: null
 
   activate: (state) ->
-    atom.config.setDefaults 'circle-ci', apiToken: '', pollFrequency: 10000
+    atom.config.setDefaults 'circle-ci', apiToken: '', pollFrequency: 10
 
     if atom.workspaceView.statusBar?
       @showStatus()
