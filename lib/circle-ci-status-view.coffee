@@ -61,7 +61,8 @@ module.exports =
         when 'fixed'    then 'icon-check'
         when 'failed'   then 'icon-alert'
         when 'canceled' then 'icon-x'
-        else                 'icon-slash'
+        when 'no_tests' then 'icon-circle-slash'
+        else                 'icon-circle-slash'
 
       @statusIcon.removeClass().addClass "icon #{icon}"
 
