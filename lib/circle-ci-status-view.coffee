@@ -24,8 +24,8 @@ module.exports =
       url = @repo.getOriginUrl()
       return unless url?
       # match = url.match /.*github\.com:(.*)\/(.*)\.git/
-      match = url.match /.*github\.com\/(.*)\/(.*)\.git/
-      [_, @username, @projectname] = match if match?
+      match = url.match /.*github\.com(\/|:)(.*)\/(.*)\.git/
+      [_, _, @username, @projectname] = match if match?
       return unless @username? && @projectname?
       @api.lastBuild @username, @projectname, (buildArray) =>
         @parseBuildArray buildArray if buildArray?
@@ -58,9 +58,11 @@ module.exports =
       icon = switch status
         when 'running'  then 'icon-sync'
         when 'success'  then 'icon-check'
+        when 'fixed'    then 'icon-check'
         when 'failed'   then 'icon-alert'
         when 'canceled' then 'icon-x'
-        else                 'icon-slash'
+        when 'no_tests' then 'icon-circle-slash'
+        else                 'icon-circle-slash'
 
       @statusIcon.removeClass().addClass "icon #{icon}"
 
