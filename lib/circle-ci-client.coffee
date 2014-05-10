@@ -8,6 +8,7 @@ module.exports =
       user:     'me'
       projects: 'projects'
       project:  'project/${username}/${projectname}'
+      branch:   'project/${username}/${projectname}/tree/${branchname}'
 
     constructor: (@apiToken) ->
       @api = new RestClient
@@ -25,29 +26,29 @@ module.exports =
       @invoke 'user', {}, (data, response) =>
         switch response.statusCode
           when 200
-            callback(data)
+            callback data
           when 401
             @log 'Circle CI: API token seems to be invalid', data, response
-            callback(false)
+            callback null
           else
             @log 'Circle CI: returned unexpected status code', data, response
-            callback(false)
+            callback null
 
-    lastBuild: (username, projectname, callback) ->
+    lastBuild: (username, projectname, branchname, callback) ->
       args =
         path:
           username:    username
           projectname: projectname
-        parameters:
-          limit: 1
+          branchname:  branchname
 
-      @invoke 'project', args, (data, response) =>
+      method = if branchname? then 'branch' else 'project'
+      @invoke method, args, (data, response) =>
         switch response.statusCode
           when 200
-            callback(data)
+            callback data
           else
             @log 'Circle CI: returned unexpected status code', data, response
-            callback(false)
+            callback null
 
     log: (messages...) ->
       console.log message for message in messages
