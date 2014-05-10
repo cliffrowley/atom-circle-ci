@@ -23,8 +23,9 @@ module.exports =
     fetchBuildArray: ->
       url = @repo.getOriginUrl()
       return unless url?
-      # match = url.match /.*github\.com:(.*)\/(.*)\.git/
-      match = url.match /.*github\.com(\/|:)(.*)\/(.*)\.git/
+      match = url.match /.*github\.com:(.*)\/(.*)\.git/
+      if not match?
+        match = url.match /.*github\.com\/(.*)\/(.*)\.git/
       [_, _, @username, @projectname] = match if match?
       return unless @username? && @projectname?
       @api.lastBuild @username, @projectname, (buildArray) =>
