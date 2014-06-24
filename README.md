@@ -2,7 +2,7 @@
 
 Shows the [Circle CI](http://circleci.com) build status for the current project in the Atom status bar.
 
-![Circle CI](https://dl.dropboxusercontent.com/u/714833/Atom/packages/circle-ci/circle_ci.png)
+![Circle CI](https://dl.dropboxusercontent.com/u/303485845/Atom/packages/circle-ci/circle_ci.png)
 
 ## Configuring
 
@@ -22,11 +22,11 @@ The icons are as follows:
 
 | Icon                                                                                   | Status   |
 | -------------------------------------------------------------------------------------- | -------- |
-| ![sync](https://dl.dropboxusercontent.com/u/714833/Atom/packages/circle-ci/sync.png)   | Running  |
-| ![sync](https://dl.dropboxusercontent.com/u/714833/Atom/packages/circle-ci/check.png)  | Success  |
-| ![alert](https://dl.dropboxusercontent.com/u/714833/Atom/packages/circle-ci/alert.png) | Failure  |
-| ![sync](https://dl.dropboxusercontent.com/u/714833/Atom/packages/circle-ci/x.png)      | Canceled |
-| ![sync](https://dl.dropboxusercontent.com/u/714833/Atom/packages/circle-ci/slash.png)  | Error    |
+| ![sync](https://dl.dropboxusercontent.com/u/303485845/Atom/packages/circle-ci/sync.png)   | Running  |
+| ![sync](https://dl.dropboxusercontent.com/u/303485845/Atom/packages/circle-ci/check.png)  | Success  |
+| ![alert](https://dl.dropboxusercontent.com/u/303485845/Atom/packages/circle-ci/alert.png) | Failure  |
+| ![sync](https://dl.dropboxusercontent.com/u/303485845/Atom/packages/circle-ci/x.png)      | Canceled |
+| ![sync](https://dl.dropboxusercontent.com/u/303485845/Atom/packages/circle-ci/slash.png)  | Error    |
 
 Please also see the limitations below.
 
