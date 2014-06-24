@@ -19,7 +19,6 @@ module.exports =
       @api = new CircleCiClient @apiToken
       @api.login (user) =>
         if user?
-          console.log user
           @fetchBuildArray()
         else
           @showStatus 'error'
@@ -28,9 +27,7 @@ module.exports =
     fetchBuildArray: ->
       url = @repo.getOriginUrl()
       return unless url?
-      match = url.match /.*github\.com:(.*)\/(.*)\.git/
-      if not match?
-        match = url.match /.*github\.com\/(.*)\/(.*)\.git/
+      match = url.match /.*github\.com(?::|\/)(.*)\/(.*)\.git/
       [_, username, projectname] = match if match?
       return unless username? && projectname?
 
@@ -53,7 +50,7 @@ module.exports =
           @showStatus build.status
           @statusLabel.text "#{build.build_num} (#{build.branch})"
         else
-          @showStatus 'error'
+          @showStatus 'none'
           @statusLabel.text "(no build status available)"
       else
         @showStatus 'error'

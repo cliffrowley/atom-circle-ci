@@ -40,6 +40,8 @@ module.exports =
           username:    username
           projectname: projectname
           branchname:  branchname
+        parameters:
+          limit: 1
 
       method = if branchname? then 'branch' else 'project'
       @invoke method, args, (data, response) =>

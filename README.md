@@ -6,14 +6,14 @@ Shows the [Circle CI](http://circleci.com) build status for the current project 
 
 ## Configuring
 
-Create an API token in your person Circle CI [dashboard](https://circleci.com/account/api) and add it to the Circle CI package configuration in Atom's settings. It's important that this key is not from the repo settings page.
+Create an API token in your Circle CI [dashboard](https://circleci.com/account/api) and add it to the Circle CI package configuration in Atom's settings. Keys from the repo settings page will not work.
 
 ## Using
 
 There's nothing to 'do' per se, just a few things you should be aware of.
 
 1. When a project is opened, the repo URL is inspected to see if it is a GitHub project (which is the only SCM host currently supported by Circle CI).
-2. If it is, the package will attempt to fetch the latest build status from the current branch via the Circle CI API.
+2. If it is, the package will attempt to fetch the latest build status for the current branch via the Circle CI API.
 3. If successful, an icon representing the build status will be added to the status bar along with the build number and the branch that was last tested, and the package will check again in 10 seconds and repeat the process from step 2.
 4. The package will keep trying to get build status unless it was unable to log in.
 5. Check the Atom console (View -> Developer -> Toggle Developer Tools) if there were any errors.
