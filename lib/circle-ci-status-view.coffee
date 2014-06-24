@@ -18,26 +18,43 @@ module.exports =
     login: ->
       @api = new CircleCiClient @apiToken
       @api.login (user) =>
-        @fetchBuildArray() if user?
+        if user?
+          @fetchBuildArray()
+        else
+          @showStatus 'error'
+          @statusLabel.text "(unable to log in to circle ci)"
 
     fetchBuildArray: ->
       url = @repo.getOriginUrl()
       return unless url?
-      # match = url.match /.*github\.com:(.*)\/(.*)\.git/
-      match = url.match /.*github\.com(\/|:)(.*)\/(.*)\.git/
-      [_, _, @username, @projectname] = match if match?
-      return unless @username? && @projectname?
-      @api.lastBuild @username, @projectname, (buildArray) =>
-        @parseBuildArray buildArray if buildArray?
-        window.setTimeout =>
-          @fetchBuildArray()
-        , @pollFrequency * 1000
+      match = url.match /.*github\.com(?::|\/)(.*)\/(.*)\.git/
+      [_, username, projectname] = match if match?
+      return unless username? && projectname?
+
+      # The head will either be a branch name like 'master' or a hash.
+      head = @repo.getShortHead()
+      if @repo.hasBranch head
+        @api.lastBuild username, projectname, head, (data) =>
+          @parseBuildArray data
+          window.setTimeout =>
+            @fetchBuildArray()
+          , @pollFrequency * 1000
+      else
+        @showStatus 'detached'
+        @statusLabel.text "(detached HEAD)"
 
     parseBuildArray: (buildArray) ->
-      build = buildArray[0] unless buildArray.length is 0
-      return unless build?
-      @showStatus build.status
-      @statusLabel.text "#{build.build_num} (#{build.branch})"
+      if buildArray?
+        if buildArray.length > 0
+          build = buildArray[0]
+          @showStatus build.status
+          @statusLabel.text "#{build.build_num} (#{build.branch})"
+        else
+          @showStatus 'none'
+          @statusLabel.text "(no build status available)"
+      else
+        @showStatus 'error'
+        @statusLabel.text "(circle ci error)"
 
     destroy: ->
       @detach()
