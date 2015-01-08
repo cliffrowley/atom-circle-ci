@@ -13,7 +13,12 @@ module.exports =
       @repo          = atom.project.getRepo()
       @apiToken      = atom.config.get 'circle-ci.apiToken'
       @pollFrequency = atom.config.get 'circle-ci.pollFrequency'
-      @login() if @repo and @apiToken?
+
+      return if not @repo or not @apiToken?
+
+      atom.config.onDidChange 'circle-ci.iconColor', => @updateIconColor()
+
+      @login()
 
     login: ->
       @api = new CircleCiClient @apiToken
@@ -71,6 +76,15 @@ module.exports =
         view.detach()
       , 5000
 
+    displayColorIcon: ->
+      atom.config.get 'circle-ci.iconColor'
+
+    updateIconColor: ->
+      if @displayColorIcon() == true?
+        @statusIcon.addClass("color")
+      else
+        @statusIcon.removeClass("color")
+
     showStatus: (status) ->
       icon = switch status
         when 'running'  then 'icon-sync'
@@ -82,6 +96,7 @@ module.exports =
         else                 'icon-circle-slash'
 
       @statusIcon.removeClass().addClass "icon #{icon}"
+      @statusIcon.addClass("color") if @displayColorIcon() == true?
 
       atom.workspaceView.statusBar.appendRight(this)
 
