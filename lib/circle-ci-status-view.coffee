@@ -96,7 +96,7 @@ module.exports =
         else                 'icon-circle-slash'
 
       @statusIcon.removeClass().addClass "icon #{icon}"
-      @statusIcon.addClass("color") if @displayColorIcon() == true?
+      @updateIconColor()
 
       atom.workspaceView.statusBar.appendRight(this)
 
