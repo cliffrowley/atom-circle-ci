@@ -28,7 +28,7 @@ module.exports =
           @statusLabel.text "(unable to log in to circle ci)"
 
     fetchBuildArray: ->
-      url = @repo.getOriginUrl()
+      url = @repo.getOriginURL()
       return unless url?
       match = url.match /.*github\.com(?::|\/)(.*)\/(.*)\.git/
       [_, username, projectname] = match if match?
