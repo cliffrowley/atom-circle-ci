@@ -10,7 +10,10 @@ module.exports =
         @span outlet: 'statusLabel'
 
     initialize: ->
-      @repo          = atom.project.getRepo()
+      # @TODO atom wants us to stop using getRepo() and use getRepository, but
+      # I can't find documentation! Link still says getRepo() -@framerate
+      # https://atom.io/docs/api/v0.177.0/GitRepository
+      @repo          = atom.project.getRepositories()[0]
       @apiToken      = atom.config.get 'circle-ci.apiToken'
       @pollFrequency = atom.config.get 'circle-ci.pollFrequency'
       @login() if @repo and @apiToken?
@@ -81,9 +84,11 @@ module.exports =
         when 'no_tests' then 'icon-circle-slash'
         else                 'icon-circle-slash'
 
-      @statusIcon.removeClass().addClass "icon #{icon}"
+      if @statusIcon
+          @statusIcon.removeClass().addClass "icon #{icon}"
 
-      atom.workspaceView.statusBar.appendRight(this)
+      statusBar = document.querySelector "status-bar"
+      statusBar.addRightTile {item: this, priority: 100}
 
     hideStatus: ->
       @detach()
