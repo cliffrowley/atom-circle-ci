@@ -88,7 +88,7 @@ module.exports =
           @statusIcon.removeClass().addClass "icon #{icon}"
 
       statusBar = document.querySelector "status-bar"
-      statusBar.addRightTile {item: this, priority: 100}
+      statusBar.addRightTile {item: this, priority: -1}
 
     hideStatus: ->
       @detach()
