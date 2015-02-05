@@ -7,7 +7,7 @@ module.exports =
     @content: ->
       @div class: 'circle-ci-status-view inline-block', =>
         @span outlet: 'statusIcon'
-        @span outlet: 'statusLabel'
+        @a outlet: 'statusLabel'
 
     initialize: ->
       # @TODO atom wants us to stop using getRepo() and use getRepository, but
@@ -52,6 +52,7 @@ module.exports =
           build = buildArray[0]
           @showStatus build.status
           @statusLabel.text "#{build.build_num} (#{build.branch})"
+          @statusLabel.attr("href", "#{build.build_url}")
         else
           @showStatus 'none'
           @statusLabel.text "(no build status available)"
