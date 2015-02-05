@@ -53,7 +53,10 @@ module.exports =
       if buildArray?
         if buildArray.length > 0
           build = buildArray[0]
-          @showStatus build.status, "#{build.status.capitalize()} by #{build.committer_name} in #{build.build_time_millis / 1000} seconds"
+          status = build.status.replace('_', ' ').capitalize()
+          build_time = build.build_time_millis / 1000
+
+          @showStatus build.status, "#{status} by #{build.committer_name} in #{build_time} seconds"
           @statusLabel.text build.build_num
           @statusLabel.attr("href", "#{build.build_url}")
       else
