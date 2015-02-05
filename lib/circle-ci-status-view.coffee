@@ -63,18 +63,6 @@ module.exports =
     destroy: ->
       @detach()
 
-    notify: (message) ->
-      view = $$ ->
-        @div tabIndex: -1, class: 'overlay from-top', =>
-          @span class: 'inline-block'
-          @span "Circle CI: #{message}"
-
-      atom.workspaceView.append view
-
-      setTimeout ->
-        view.detach()
-      , 5000
-
     displayColorIcon: ->
       atom.config.get 'circle-ci.iconColor'
 
