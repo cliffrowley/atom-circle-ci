@@ -1,7 +1,7 @@
 {
   "name": "circle-ci",
   "main": "./lib/circle-ci",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "private": true,
   "description": "Adds build status from Circle CI for the current branch of the current project to the Atom UI",
   "repository": "https://github.com/cliffrowley/atom-circle-ci",
