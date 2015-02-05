@@ -6,7 +6,8 @@ module.exports =
   activate: (state) ->
     atom.config.setDefaults 'circle-ci', apiToken: '', pollFrequency: 10
 
-    if atom.workspaceView.statusBar?
+    statusBar = document.querySelector('status-bar')
+    if statusBar?
       @showStatus()
     else
       atom.packages.once 'activated', =>

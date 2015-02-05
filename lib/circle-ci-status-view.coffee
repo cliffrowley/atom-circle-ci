@@ -1,4 +1,4 @@
-{$$, View} = require 'atom'
+{View, $$} = require 'atom-space-pen-views'
 
 CircleCiClient = require './circle-ci-client'
 
@@ -10,7 +10,10 @@ module.exports =
         @span outlet: 'statusLabel'
 
     initialize: ->
-      @repo          = atom.project.getRepo()
+      # @TODO atom wants us to stop using getRepo() and use getRepository, but
+      # I can't find documentation! Link still says getRepo() -@framerate
+      # https://atom.io/docs/api/v0.177.0/GitRepository
+      @repo          = atom.project.getRepositories()[0]
       @apiToken      = atom.config.get 'circle-ci.apiToken'
       @pollFrequency = atom.config.get 'circle-ci.pollFrequency'
       @login() if @repo and @apiToken?
@@ -25,7 +28,7 @@ module.exports =
           @statusLabel.text "(unable to log in to circle ci)"
 
     fetchBuildArray: ->
-      url = @repo.getOriginUrl()
+      url = @repo.getOriginURL()
       return unless url?
       match = url.match /.*github\.com(?::|\/)(.*)\/(.*)\.git/
       [_, username, projectname] = match if match?
@@ -81,9 +84,11 @@ module.exports =
         when 'no_tests' then 'icon-circle-slash'
         else                 'icon-circle-slash'
 
-      @statusIcon.removeClass().addClass "icon #{icon}"
+      if @statusIcon
+          @statusIcon.removeClass().addClass "icon #{icon}"
 
-      atom.workspaceView.statusBar.appendRight(this)
+      statusBar = document.querySelector "status-bar"
+      statusBar.addRightTile {item: this, priority: -1}
 
     hideStatus: ->
       @detach()
