@@ -10,9 +10,6 @@ module.exports =
         @a outlet: 'statusLabel'
 
     initialize: ->
-      # @TODO atom wants us to stop using getRepo() and use getRepository, but
-      # I can't find documentation! Link still says getRepo() -@framerate
-      # https://atom.io/docs/api/v0.177.0/GitRepository
       @repo          = atom.project.getRepositories()[0]
       @apiToken      = atom.config.get 'circle-ci.apiToken'
       @pollFrequency = atom.config.get 'circle-ci.pollFrequency'
