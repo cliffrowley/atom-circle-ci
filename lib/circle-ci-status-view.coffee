@@ -6,8 +6,9 @@ module.exports =
   class CircleCiStatusView extends View
     @content: ->
       @div class: 'circle-ci-status-view inline-block', =>
-        @span outlet: 'statusIcon'
-        @a outlet: 'statusLabel'
+        @div outlet: 'statusWrapper', =>
+          @span outlet: 'statusIcon'
+          @a outlet: 'statusLabel'
 
     initialize: ->
       @repo          = atom.project.getRepositories()[0]
@@ -26,8 +27,8 @@ module.exports =
         if user?
           @fetchBuildArray()
         else
-          @showStatus 'error'
-          @statusLabel.text "(unable to log in to circle ci)"
+          @showStatus 'error', "Unable to login to CircleCI"
+          @statusLabel.text "Unauthorized"
 
     fetchBuildArray: ->
       url = @repo.getOriginURL()
@@ -45,22 +46,22 @@ module.exports =
             @fetchBuildArray()
           , @pollFrequency * 1000
       else
-        @showStatus 'detached'
-        @statusLabel.text "(detached HEAD)"
+        @showStatus 'detached', "Detached from HEAD"
+        @statusLabel.text "Detached"
 
     parseBuildArray: (buildArray) ->
       if buildArray?
         if buildArray.length > 0
           build = buildArray[0]
-          @showStatus build.status
-          @statusLabel.text "#{build.build_num} (#{build.branch})"
+          @showStatus build.status, "#{build.status.capitalize()} by #{build.committer_name} in #{build.build_time_millis / 1000} seconds"
+          @statusLabel.text build.build_num
           @statusLabel.attr("href", "#{build.build_url}")
         else
           @showStatus 'none'
           @statusLabel.text "(no build status available)"
       else
-        @showStatus 'error'
-        @statusLabel.text "(circle ci error)"
+        @showStatus 'error', "Unknown error when parsing API response"
+        @statusLabel.text "Error"
 
     destroy: ->
       @detach()
@@ -86,7 +87,7 @@ module.exports =
       else
         @statusIcon.removeClass("color")
 
-    showStatus: (status) ->
+    showStatus: (status, tooltip="") ->
       icon = switch status
         when 'running'  then 'icon-sync'
         when 'success'  then 'icon-check'
@@ -96,12 +97,17 @@ module.exports =
         when 'no_tests' then 'icon-circle-slash'
         else                 'icon-circle-slash'
 
-      if @statusIcon
-          @statusIcon.removeClass().addClass "icon #{icon}"
-          @updateIconColor()
+      if tooltip
+        atom.tooltips.add @statusWrapper, title: tooltip
+
+      @statusIcon.removeClass().addClass "icon #{icon}"
+      @updateIconColor()
 
       statusBar = document.querySelector "status-bar"
       statusBar.addRightTile {item: this, priority: -1}
 
     hideStatus: ->
       @detach()
+
+    String::capitalize = ->
+      @substr(0, 1).toUpperCase() + @substr(1)
