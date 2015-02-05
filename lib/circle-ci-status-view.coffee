@@ -42,12 +42,13 @@ module.exports =
       if @repo.hasBranch head
         @api.lastBuild username, projectname, head, (data) =>
           @parseBuildArray data
-          window.setTimeout =>
-            @fetchBuildArray()
-          , @pollFrequency * 1000
       else
         @showStatus 'detached', "Detached from HEAD"
         @statusLabel.text "Detached"
+
+      window.setTimeout =>
+        @fetchBuildArray()
+      , @pollFrequency * 1000
 
     parseBuildArray: (buildArray) ->
       if buildArray?
