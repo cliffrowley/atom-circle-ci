@@ -56,9 +56,6 @@ module.exports =
           @showStatus build.status, "#{build.status.capitalize()} by #{build.committer_name} in #{build.build_time_millis / 1000} seconds"
           @statusLabel.text build.build_num
           @statusLabel.attr("href", "#{build.build_url}")
-        else
-          @showStatus 'none'
-          @statusLabel.text "(no build status available)"
       else
         @showStatus 'error', "Unknown error when parsing API response"
         @statusLabel.text "Error"
