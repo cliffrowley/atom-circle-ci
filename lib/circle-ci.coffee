@@ -4,7 +4,7 @@ module.exports =
   circleCiStatusView: null
 
   activate: (state) ->
-    atom.config.setDefaults 'circle-ci', apiToken: '', pollFrequency: 10, iconColor: true
+    atom.config.setDefaults 'circle-ci', apiToken: '', pollFrequency: 10, iconColor: false
 
     statusBar = document.querySelector('status-bar')
     if statusBar?
