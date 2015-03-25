@@ -23,12 +23,20 @@ module.exports =
 
     login: ->
       @api = new CircleCiClient @apiToken
-      @api.login (user) =>
-        if user?
+      @api.login (error, result) =>
+        if !error && result.user?
           @fetchBuildArray()
         else
-          @showStatus 'error', "Unable to login to CircleCI"
-          @statusLabel.text "Unauthorized"
+          if result.status == 'no-connection'
+            @showStatus 'error', "No internet connection"
+            @statusLabel.text "No network"
+
+            window.setTimeout =>
+              @login();
+            , @pollFrequency * 1000
+          else
+            @showStatus 'error', "Unable to login to CircleCI"
+            @statusLabel.text "Unauthorized"
 
     fetchBuildArray: ->
       url = @repo.getOriginURL()
@@ -41,7 +49,12 @@ module.exports =
       head = @repo.getShortHead()
       if @repo.hasBranch head
         @api.lastBuild username, projectname, head, (data) =>
-          @parseBuildArray data
+          if data.status == 'no-connection'
+            @showStatus 'error', "No internet connection"
+            @statusLabel.text "No network"
+            @statusLabel.removeAttr("href")
+          else
+            @parseBuildArray data.buildArray
       else
         @showStatus 'detached', "Detached from HEAD"
         @statusLabel.text "Detached"
@@ -86,8 +99,9 @@ module.exports =
         when 'no_tests' then 'icon-circle-slash'
         else                 'icon-circle-slash'
 
+      @tooltip.dispose() if @tooltip;
       if tooltip
-        atom.tooltips.add @statusWrapper, title: tooltip
+        @tooltip = atom.tooltips.add @statusWrapper, title: tooltip
 
       @statusIcon.removeClass().addClass "icon #{icon}"
       @updateIconColor()

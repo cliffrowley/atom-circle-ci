@@ -20,19 +20,24 @@ module.exports =
       args.headers    ?= {}
       args.parameters['circle-token'] = @apiToken
       args.headers['Accept'] = 'application/json'
-      @api.methods[name](args, callback)
+      req = @api.methods[name](args, callback)
+      req.on 'error', ( err ) ->
+        callback null
 
     login: (callback) ->
       @invoke 'user', {}, (data, response) =>
-        switch response.statusCode
-          when 200
-            callback data
-          when 401
-            @log 'Circle CI: API token seems to be invalid', data, response
-            callback null
-          else
-            @log 'Circle CI: returned unexpected status code', data, response
-            callback null
+        if !response
+          callback true, { status: 'no-connection' }
+        else
+          switch response.statusCode
+            when 200
+              callback false, { status: 'ok', user: data }
+            when 401
+              @log 'Circle CI: API token seems to be invalid', data, response
+              callback true
+            else
+              @log 'Circle CI: returned unexpected status code', data, response
+              callback true
 
     lastBuild: (username, projectname, branchname, callback) ->
       args =
@@ -45,12 +50,15 @@ module.exports =
 
       method = if branchname? then 'branch' else 'project'
       @invoke method, args, (data, response) =>
-        switch response.statusCode
-          when 200
-            callback data
-          else
-            @log 'Circle CI: returned unexpected status code', data, response
-            callback null
+        if !response
+          callback { status: 'no-connection' }
+        else
+          switch response.statusCode
+            when 200
+              callback { status: 'ok', buildArray: data }
+            else
+              @log 'Circle CI: returned unexpected status code', data, response
+              callback null
 
     log: (messages...) ->
       console.log message for message in messages
