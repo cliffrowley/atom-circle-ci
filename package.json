@@ -10,7 +10,7 @@
     "atom": ">0.50.0"
   },
   "dependencies": {
-    "node-rest-client": "cliffrowley/node-rest-client",
+    "node-rest-client": "^0.7.12",
     "atom-space-pen-views": "^2.0.3"
   }
 }
