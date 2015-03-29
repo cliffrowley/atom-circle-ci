@@ -67,7 +67,7 @@ module.exports =
       if buildArray?
         if buildArray.length > 0
           build = buildArray[0]
-          status = build.status.replace('_', ' ').capitalize()
+          status = build.status?.replace('_', ' ').capitalize()
           build_time = build.build_time_millis / 1000
 
           @showStatus build.status, "#{status} by #{build.committer_name} in #{build_time} seconds"
