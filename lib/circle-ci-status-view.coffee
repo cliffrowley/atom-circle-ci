@@ -64,6 +64,8 @@ module.exports =
       , @pollFrequency * 1000
 
     parseBuildArray: (buildArray) ->
+      if typeof buildArray is 'string'
+        buildArray = JSON.parse buildArray
       if buildArray?
         if buildArray.length > 0
           build = buildArray[0]
