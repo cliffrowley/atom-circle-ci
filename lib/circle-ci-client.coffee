@@ -34,10 +34,10 @@ module.exports =
               callback false, { status: 'ok', user: data }
             when 401
               @log 'Circle CI: API token seems to be invalid', data, response
-              callback true
+              callback true, { status: 'invalid-token' }
             else
               @log 'Circle CI: returned unexpected status code', data, response
-              callback true
+              callback true, { status: 'unknown-error' }
 
     lastBuild: (username, projectname, branchname, callback) ->
       args =
@@ -58,7 +58,7 @@ module.exports =
               callback { status: 'ok', buildArray: data }
             else
               @log 'Circle CI: returned unexpected status code', data, response
-              callback null
+              callback { status: 'unknown-error' }
 
     log: (messages...) ->
       console.log message for message in messages

@@ -34,6 +34,13 @@ module.exports =
             window.setTimeout =>
               @login();
             , @pollFrequency * 1000
+          else if result.status == 'unknown-error'
+            @showStatus 'error'
+            @statusLabel.text "Unknown error"
+
+            window.setTimeout =>
+              @login();
+            , @pollFrequency * 1000
           else
             @showStatus 'error', "Unable to login to CircleCI"
             @statusLabel.text "Unauthorized"
@@ -53,6 +60,10 @@ module.exports =
             @showStatus 'error', "No internet connection"
             @statusLabel.text "No network"
             @statusLabel.removeAttr("href")
+          else if data.status == 'unknown-error'
+            @showStatus 'error'
+            @statusLabel.text 'Unknown error'
+            @statusLabel.removeAttr('href')
           else
             @parseBuildArray data.buildArray
       else
