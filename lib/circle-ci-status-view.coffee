@@ -23,18 +23,18 @@ module.exports =
 
     login: ->
       @api = new CircleCiClient @apiToken
-      @api.login (error, result) =>
-        if !error && result.user?
+      @api.login (error, data) =>
+        if !error && data.user?
           @fetchBuildArray()
         else
-          if result.status == 'no-connection'
+          if data.status == 'no-connection'
             @showStatus 'error', "No internet connection"
             @statusLabel.text "No network"
 
             window.setTimeout =>
               @login();
             , @pollFrequency * 1000
-          else if result.status == 'unknown-error'
+          else if data.status == 'unknown-error'
             @showStatus 'error'
             @statusLabel.text "Unknown error"
 
