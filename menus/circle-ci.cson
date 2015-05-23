@@ -1,16 +1,11 @@
 # See https://atom.io/docs/latest/creating-a-package#menus for more details
-'context-menu':
-  '.overlayer':
-      'Enable Circle CI': 'circle-ci:toggle'
-
-'menu': [
-  {
-    'label': 'Packages'
-    'submenu': [
-      'label': 'Circle CI'
-      'submenu': [
-        { 'label': 'Toggle', 'command': 'circle-ci:toggle' }
-      ]
-    ]
-  }
-]
+'menu': [{
+  label: 'Packages'
+  submenu: [
+    label: 'Circle CI'
+    submenu: [{
+      label: 'Toggle',
+      command: 'circle-ci:toggle'
+    }]
+  ]
+}]

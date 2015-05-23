@@ -1,24 +1,16 @@
 CircleCiStatusView = require './circle-ci-status-view'
 
 module.exports =
-  circleCiStatusView: null
+  view: null
 
-  activate: (state) ->
+  activate: ->
     atom.config.setDefaults 'circle-ci', apiToken: '', pollFrequency: 10, iconColor: false
 
-    statusBar = document.querySelector('status-bar')
-    if statusBar?
-      @showStatus()
-    else
-      atom.packages.once 'activated', =>
-        @showStatus()
+    atom.packages.onDidActivateInitialPackages =>
+      statusBar = document.querySelector('status-bar')
+      if statusBar?
+        @view ?= new CircleCiStatusView
 
   deactivate: ->
-    @hideStatus()
-
-  showStatus: ->
-    @circleCiStatusView ?= new CircleCiStatusView
-
-  hideStatus: ->
-    @circleCiStatusView.destroy()
-    @circleCiStatusView = null
+    @view.destroy()
+    @view = null
