@@ -6,7 +6,14 @@ Shows the [Circle CI](http://circleci.com) build status for the current project 
 
 ## Configuring
 
-Create an API token in your Circle CI [dashboard](https://circleci.com/account/api) and add it to the Circle CI package configuration in Atom's settings. Keys from the repo settings page will not work.
+Create an API token in your Circle CI [dashboard](https://circleci.com/account/api) and add it to the Circle CI package configuration in Atom's settings (Atom > Open Your Config).
+
+```
+  "circle-ci":
+    apiToken: "CIRCLE API TOKEN"
+```
+
+Keys from the repo settings page will not work.
 
 ## Using
 
