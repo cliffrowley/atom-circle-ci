@@ -81,9 +81,9 @@ module.exports =
         if buildArray.length > 0
           build = buildArray[0]
           status = build.status?.replace('_', ' ').capitalize()
-          build_time = build.build_time_millis / 1000
+          build_time = millisToMinutesAndSeconds(build.build_time_millis)
 
-          @showStatus build.status, "#{status} by #{build.committer_name} in #{build_time} seconds"
+          @showStatus build.status, "#{status} by #{build.committer_name} in #{build_time}"
           @statusLabel.text build.build_num
           @statusLabel.attr("href", "#{build.build_url}")
       else
@@ -127,3 +127,8 @@ module.exports =
 
     String::capitalize = ->
       @substr(0, 1).toUpperCase() + @substr(1)
+
+    millisToMinutesAndSeconds = (millis) ->
+      minutes = Math.floor(millis / 60000)
+      seconds = (millis % 60000 / 1000).toFixed(0)
+      if seconds == 60 then minutes + 1 + ':00' else minutes + ':' + (if seconds < 10 then '0' else '') + seconds
