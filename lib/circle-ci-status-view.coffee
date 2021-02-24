@@ -48,14 +48,19 @@ module.exports =
     fetchBuildArray: ->
       url = @repo.getOriginURL()
       return unless url?
-      match = url.match /.*github\.com(?::|\/)(.*)\/(.*)\.git/
-      [_, username, projectname] = match if match?
-      return unless username? && projectname?
+      vcs = {
+        'github.com': 'gh',
+        'bitbucket.org' : 'bb'
+      }
+      match = url.match /.*(github\.com|bitbucket\.org)(?::|\/)(.*)\/(.*)\.git/
+      [_, vc, username, projectname] = match if match?
+      vc_type = vcs[vc]
+      return unless vc_type? && username? && projectname?
 
       # The head will either be a branch name like 'master' or a hash.
       head = @repo.getShortHead()
       if @repo.hasBranch head
-        @api.lastBuild username, projectname, head, (data) =>
+        @api.lastBuild vc_type, username, projectname, head, (data) =>
           if data.status == 'no-connection'
             @showStatus 'error', "No internet connection"
             @statusLabel.text "No network"
