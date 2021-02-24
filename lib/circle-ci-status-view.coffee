@@ -87,8 +87,9 @@ module.exports =
           build = buildArray[0]
           status = build.status?.replace('_', ' ').capitalize()
           build_time = build.build_time_millis / 1000
+          name = build.committer_name || build.author_name || build.committer_email || build.author_email
 
-          @showStatus build.status, "#{status} by #{build.committer_name} in #{build_time} seconds"
+          @showStatus build.status, "#{status} by #{name} in #{build_time} seconds"
           @statusLabel.text build.build_num
           @statusLabel.attr("href", "#{build.build_url}")
       else
