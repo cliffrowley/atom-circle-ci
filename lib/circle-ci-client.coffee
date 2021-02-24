@@ -2,13 +2,13 @@ RestClient = require('node-rest-client').Client
 
 module.exports =
   class CircleCiClient
-    baseURI: 'https://circleci.com/api/v1'
+    baseURI: 'https://circleci.com/api/v1.1'
 
     methods:
       user:     'me'
       projects: 'projects'
-      project:  'project/${username}/${projectname}'
-      branch:   'project/${username}/${projectname}/tree/${branchname}'
+      project:  'project/${vc_type}/${username}/${projectname}'
+      branch:   'project/${vc_type}/${username}/${projectname}/tree/${branchname}'
 
     constructor: (@apiToken) ->
       @api = new RestClient
@@ -39,9 +39,10 @@ module.exports =
               @log 'Circle CI: returned unexpected status code', data, response
               callback true, { status: 'unknown-error' }
 
-    lastBuild: (username, projectname, branchname, callback) ->
+    lastBuild: (vc_type, username, projectname, branchname, callback) ->
       args =
         path:
+          vc_type:     vc_type
           username:    username
           projectname: projectname
           branchname:  branchname
